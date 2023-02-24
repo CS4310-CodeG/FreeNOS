@@ -9,8 +9,8 @@
 Wait::Wait(int argc, char **argv)
     : POSIXApplication(argc, argv)
 {
-    parser().setDescription("Stop executing for some time");
-    parser().registerPositional("PROCESS_ID", "Stop executing for the given number of seconds");
+    parser().setDescription("The parent process waits for the child to complete its execution");
+    parser().registerPositional("PROCESS_ID", "Parent waits for child process in a given number of seconds");
 }
 
 Wait::~Wait()
@@ -26,6 +26,7 @@ Wait::Result Wait::exec()
         return InvalidArgument;
     }
     
+    //
     if (waitpid(pid, 0, 0) == (pid_t) -1) {
     	ERROR("wait: pid " << arguments().get("PROCESS_ID") << " is not a child of this shell");
         return IOError;
