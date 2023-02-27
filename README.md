@@ -2,6 +2,6 @@
 
 Team: CodeG
 
--Andrew Kim and Allan Chan
+Andrew Kim and Allan Chan
 
 Video: https://youtu.be/lnLdF6u-d1w
