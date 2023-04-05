@@ -14,7 +14,7 @@
  *
  * @return Process ID of the child on success or -1 on error
  */
-extern C pid_t renicepid(pid_t pid, int *stat_loc, int options);
+extern C pid_t renicepid(pid_t pid, int priority, int *stat_loc, int options);
 
 /**
  * @}
