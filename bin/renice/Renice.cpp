@@ -3,6 +3,7 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
+#include "ProcessClient.h"
 #include "Renice.h"
 #include "sys/renice.h"
 
@@ -21,5 +22,31 @@ Renice::~Renice()
 
 Renice::Result Renice::exec()
 {
-    // to be added
+    if (arguments().get("priority")) {
+        const ProcessClient process;
+        ProcessID pid = (atoi(arguments().get("PROCESS_ID")));
+        int priority = (atoi(arguments().get("PRIORITY")));
+
+        ProcessClient::Info info;
+        const ProcessClient::Result result = process.processInfo(pid, info);
+
+        // Check if the process exists
+        if (result != ProcessClient::Success) {
+            ERROR("Process of ID '" << pid << "' not found");
+            return InvalidArgument;
+        }
+
+        // Check if the priority level is valid
+        if (priority < 1 || priority > 5) {
+            ERROR("Unable to set the priority for process '" << pid << "'");
+            return InvalidArgument;
+        }
+
+        renicepid(pid, priority, 0, 0); // Change the scheduling priority of the given process
+
+        // Output
+        printf("Process %d set to priority %d, from priority %d\n", pid, priority, info.kernelState.priority);
+    }
+
+    return Success;
 }
