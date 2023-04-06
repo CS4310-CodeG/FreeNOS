@@ -53,7 +53,10 @@ typedef enum ProcessOperation
     Wakeup,
     Stop,
     Resume,
-    Reset
+    Reset,
+    GetPriority,
+    RenicePID
+
 }
 ProcessOperation;
 
@@ -70,6 +73,9 @@ typedef struct ProcessInfo
 
     /** Defines the current state of the Process. */
     Process::State state;
+
+    /** Getting the priority level for the process. */
+    Process::Priority priority;
 }
 ProcessInfo;
 

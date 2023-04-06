@@ -71,6 +71,12 @@ class Process
         Stopped
     };
 
+   enum Priority {
+      Min = 1,
+      Default = 3,
+      Max = 5
+    };
+
   public:
 
     /**
@@ -112,6 +118,11 @@ class Process
      */
     uint getWaitResult() const;
 
+
+    Priority getPriority();
+    Result setPriority(int priority);// gets the priority level
+
+
     /**
      * Get process shares.
      *
@@ -126,6 +137,10 @@ class Process
      */
     State getState() const;
 
+    
+    Priority m_priority;
+
+
     /**
      * Get MMU memory context.
      *
@@ -139,6 +154,7 @@ class Process
      * @return Privilege of the Process.
      */
     bool isPrivileged() const;
+    
 
     /**
      * Compare two processes.

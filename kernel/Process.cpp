@@ -35,6 +35,7 @@ Process::Process(ProcessID id, Address entry, bool privileged, const MemoryMap &
     m_privileged    = privileged;
     m_memoryContext = ZERO;
     m_kernelChannel = ZERO;
+    m_priority      = default;
     MemoryBlock::set(&m_sleepTimer, 0, sizeof(m_sleepTimer));
 }
 
@@ -105,6 +106,20 @@ bool Process::isPrivileged() const
 void Process::setParent(ProcessID id)
 {
     m_parent = id;
+}
+
+Process::Priority Process::getPriority() {
+    return m_priority;
+}
+
+Process::Result Process::setPriority(int priority) { //checking if the user inputs priority levels 1-5 only
+    if(priority > 5 || priority < 1) {
+        ERROR("Invalid priority level: " << priority);
+        return InvalidArgument;
+    }
+
+    m_priority = (Priority) priority;
+    return Success;
 }
 
 Process::Result Process::wait(ProcessID id)

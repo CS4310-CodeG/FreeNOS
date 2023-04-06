@@ -70,6 +70,10 @@ API::Result ProcessCtlHandler(const ProcessID procID,
     case GetParent:
         return (API::Result) procs->current()->getParent();
 
+    case GetPriority:
+        return (API::Result) procs->current()->getPriority();
+
+
     case Schedule:
         procs->schedule();
         break;
@@ -135,6 +139,7 @@ API::Result ProcessCtlHandler(const ProcessID procID,
         info->id    = proc->getID();
         info->state = proc->getState();
         info->parent = proc->getParent();
+        info->priority = proc->getPriority();
         break;
 
     case WaitPID:
@@ -160,6 +165,11 @@ API::Result ProcessCtlHandler(const ProcessID procID,
             return API::NotFound;
 
         timer->getCurrent((Timer::Info *) addr);
+        break;
+
+    case RenicePID:
+        procs->changePriority(proc, addr);
+        procs->schedule();
         break;
 
     case WaitTimer:
@@ -199,6 +209,8 @@ Log & operator << (Log &log, ProcessOperation op)
         case EnterSleep: log.append("EnterSleep"); break;
         case Schedule:  log.append("Schedule"); break;
         case Wakeup:    log.append("Wakeup"); break;
+        case GetPriority: log.append("GetPriority"); break;
+        case RenicePID: log.append("RenicePID"); break;
         default:        log.append("???"); break;
     }
     return log;
