@@ -48,7 +48,7 @@ ProcessList::Result ProcessList::exec()
 
             // Output a line
             char line[128];
-            int priority = info.kernelState.priority / 50 + 1;
+            int priority = ((info.kernelState.priority - 20) / 40) + 3;//default 3
             priority = priority > 5 ? 5 : priority;
             priority = priority < 1 ? 1 : priority;
             snprintf(line, sizeof(line),
