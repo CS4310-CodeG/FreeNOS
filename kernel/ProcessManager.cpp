@@ -153,7 +153,7 @@ void ProcessManager::remove(Process *proc, const uint exitStatus)
 }
 
 ProcessManager::Result ProcessManager::changePriority(Process *proc, int priority) {
-    if (proc->getState() == Process.Ready) {
+    if (proc->getState() == Process::Ready) {
         if (m_scheduler->dequeue(proc, true) != Scheduler::Success) {
             FATAL("Failed to dequeue pid " << proc->getID());
         }

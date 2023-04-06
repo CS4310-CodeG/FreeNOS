@@ -93,7 +93,7 @@ class Scheduler
     Queue<Process *, MAX_PROCS> m_queue[5]; // Five priority levels
 
     inline Queue<Process *, MAX_PROCS> * queueOf(Process *proc) {
-      return &m_queue[proc->getPriority()-1]
+      return &m_queue[proc->getPriority()-1];
     }
 };
 
