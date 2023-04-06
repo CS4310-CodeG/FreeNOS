@@ -1,20 +1,3 @@
-/*
- * Copyright (C) 2015 Niek Linnenbank
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 #include <Types.h>
 #include <Macros.h>
 #include <stdio.h>
@@ -26,6 +9,7 @@ ProcessList::ProcessList(int argc, char **argv)
     : POSIXApplication(argc, argv)
 {
     parser().setDescription("Output system process list");
+    parser().registerFlag('l', "PRIORITY", "Outputs a list of priorities. 1-5, 3 being the default.");//adding the -l function
 }
 
 ProcessList::Result ProcessList::exec()
@@ -33,10 +17,14 @@ ProcessList::Result ProcessList::exec()
     const ProcessClient process;
     String out;
 
-    // Print header
-    out << "ID  PARENT  USER GROUP STATUS PRIORITY  CMD\r\n";
-
-    // Loop processes
+    if(arguments().get("PRIORITY")) {
+        out << "ID  PARENT  PRIORITY USER GROUP STATUS     CMD\r\n";
+    } else {
+        // Printing the header
+        out << "ID  PARENT  USER GROUP STATUS     CMD\r\n";
+    }
+    
+    // Loops through each processes
     for (ProcessID pid = 0; pid < ProcessClient::MaximumProcesses; pid++)
     {
         ProcessClient::Info info;
@@ -47,19 +35,25 @@ ProcessList::Result ProcessList::exec()
             DEBUG("PID " << pid << " state = " << *info.textState);
 
             // Output a line
-            char line[128];
-            int priority = ((info.kernelState.priority - 20) / 40) + 3;//default 3
-            priority = priority > 5 ? 5 : priority;
-            priority = priority < 1 ? 1 : priority;
-            snprintf(line, sizeof(line),
-                    "%3d %7d %4d %5d %10s %8d %32s\r\n",
-                     pid, info.kernelState.parent,
-                     0, 0, *info.textState, priority, *info.command);
-            out << line;
+            if(arguments().get("PRIORITY")) {
+                char line[128];
+                snprintf(line, sizeof(line),
+                        "%3d %7d %8d %4d %5d %10s %32s\r\n",
+                        pid, info.kernelState.parent, info.kernelState.priority,
+                        0, 0, *info.textState, *info.command);
+                out << line;
+            } 
+            else {
+                char line[128];
+                snprintf(line, sizeof(line),
+                        "%3d %7d %4d %5d %10s %32s\r\n",
+                        pid, info.kernelState.parent,
+                        0, 0, *info.textState, *info.command);
+                out << line;
+            }
         }
     }
 
-    // Output the table
     write(1, *out, out.length());
     return Success;
 }
