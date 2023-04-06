@@ -10,10 +10,9 @@
 SlowCalc::SlowCalc(int argc, char **argv)
     : POSIXApplication(argc, argv)
 {
-    parser().setDescription("Alters the scheduling priority of a running");
-    parser().registerPositional("PRIORITY", "Priority level to be used");
-    parser().registerPositional("PROCESS_ID", "Process to have its scheduling priority changed");
-    parser().registerFlag('n', "priority", "Specify the scheduling priority to be used for the process");
+    parser().setDescription("Compute prime numbers using the Sieve of Eratosthenes algorithm");
+    parser().registerPositional("NUMBER", "Maximum number to search for prime numbers");
+    //parser().registerFlag('o', "stdout", "Write results to standard output if set");
 }
 
 SlowCalc::~SlowCalc()
