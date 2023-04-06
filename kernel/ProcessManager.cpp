@@ -162,7 +162,7 @@ ProcessManager::Result ProcessManager::changePriority(Process *proc, int priorit
             FATAL("Failed to set priority of pid " << proc->getID());
         }
 
-        if (m_scheduler->enqueue(proc, true) != Scheduler::Success) {
+        if (m_scheduler->enqueue(proc, false) != Scheduler::Success) {
             FATAL("Failed to enqueue pid " << proc->getID());
         }
     } else {
