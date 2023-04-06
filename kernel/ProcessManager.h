@@ -239,7 +239,7 @@ class ProcessManager
      *
      * @return Restult code
      */
-    Result changePriority(Process *proc, int priority)
+    Result changePriority(Process *proc, int priority);
 
   private:
 
