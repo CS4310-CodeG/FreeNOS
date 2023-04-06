@@ -231,6 +231,16 @@ class ProcessManager
      */
     Result dequeueProcess(Process *proc, const bool ignoreState = false) const;
 
+    /**
+     * Change the scheduling priority of a process
+     * 
+     * @param proc Process pointer
+     * @param priority Priority level
+     *
+     * @return Restult code
+     */
+    Result changePriority(Process *proc, int priority)
+
   private:
 
     /** All known Processes. */

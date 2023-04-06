@@ -152,6 +152,28 @@ void ProcessManager::remove(Process *proc, const uint exitStatus)
     delete proc;
 }
 
+ProcessManager::Result ProcessManager::changePriority(Process *proc, int priority) {
+    if (proc->getState() == Process.Ready) {
+        if (m_scheduler->dequeue(proc, true) != Scheduler::Success) {
+            FATAL("Failed to dequeue pid " << proc->getID());
+        }
+
+        if (proc->setPriority(priority) != Process::Success) {
+            FATAL("Failed to set priority of pid " << proc->getID());
+        }
+
+        if (m_scheduler->enqueue(proc, true) != Scheduler::Success) {
+            FATAL("Failed to enqueue pid " << proc->getID());
+        }
+    } else {
+        if (proc->setPriority(priority) != Process::Success) {
+            FATAL("Failed to set priority of pid " << proc->getID());
+        }
+    }
+
+    return Success;
+}
+
 ProcessManager::Result ProcessManager::schedule()
 {
     const Timer *timer = Kernel::instance()->getTimer();

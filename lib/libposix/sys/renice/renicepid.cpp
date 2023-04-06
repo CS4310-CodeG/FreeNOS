@@ -1,5 +1,5 @@
 #include <FreeNOS/User.h>
-#include "sys/wait.h"
+#include "sys/renice.h"
 #include "sys/types.h"
 #include <errno.h>
 
