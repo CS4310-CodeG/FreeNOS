@@ -71,12 +71,6 @@ class Process
         Stopped
     };
 
-   enum Priority {
-      Min = 1,
-      Default = 3,
-      Max = 5
-    };
-
   public:
 
     /**
