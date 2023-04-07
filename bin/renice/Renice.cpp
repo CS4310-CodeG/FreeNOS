@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include "Renice.h"
 #include <ProcessClient.h>
+#include "sys/renice.h"
 #include <FreeNOS/User.h>
 #include "sys/types.h"
 
