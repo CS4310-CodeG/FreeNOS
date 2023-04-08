@@ -9,7 +9,9 @@ We modified the ps function to have the -l flag to show priority levels of each 
 
 ## Branches: 
 main branch contains the original FreeNOS operator. 
+
 wait branch contains FreeNOS with the wait command.
+
 priority branch contains FreeNOS with the priority based scheduling and renice command.
 
 ## Comments: 
