@@ -26,7 +26,8 @@ Virtual Memory: Used to separate logical and physical memory addresses, creating
   - op: The memory operation to be performed.
   - range: A pointer to a Memory::Range object that describes the virtual memory pages to be operated upon.
   - VMCtlHandler(): A kernel handler function that performs the specified memory operation on the virtual memory pages. It takes the same arguments as VMCtl().
-  
+"Description of the VMCtl.h file." ChatGPT, 5 May 2023.
+ 
 `kernel/API/VMCtl.cpp`: Implementing the function to make virtual memory related system calls.
 ```c++
     ProcessManager *procs = Kernel::instance()->getProcessManager();
@@ -34,7 +35,7 @@ Virtual Memory: Used to separate logical and physical memory addresses, creating
     API::Result ret = API::Success;
     Process *proc = ZERO;
 ```
-In line 28 of file VMCtl.cpp the function first gets a pointer to the ProcessManager and uses it to find the process ID. The function retrieves the process's memory context and performs the requested memory operation on the virtual memory range specified in the range parameter. The supported memory operations include looking up the physical address corresponding to a given virtual address, mapping a contiguous or sparse virtual memory range to physical memory, unmapping a virtual memory range, releasing a virtual memory range, releasing sections of a virtual memory range, cleaning or invalidating the cache for a virtual memory range, and checking the access permissions for a virtual memory range. In each case, the function returns an appropriate error code if the operation fails for any reason. Finally, the function includes an implementation for reserving memory, which is done using a Allocator object.
+In file VMCtl.cpp, at line 28, the function finds the process ID by first obtaining a pointer to the ProcessManager. It later retrieves the memory context of the process and carries out the specified memory manipulation on the virtual memory range in the range parameter. For virtual memory ranges, supported memory operations are available. These include checking access permissions, releasing sections of a range, cleaning or invalidating the cache, and releasing or unmapping a range. Additionally, physical addresses that correspond to a virtual address can be looked up, and contiguous or sparse virtual memory ranges can be mapped to physical memory. If something goes wrong during the operation, the function will provide an error code. There is also a memory reservation implementation included that utilizes an Allocator object.
 
 ```c++
  case ReserveMem:
@@ -84,6 +85,8 @@ The getAllocator() function provides access to the SplitAllocator object pointer
 - Memory::Range range(Region region) const: returns the memory range for a given memory region.
 
 - void setRange(Region region, Memory::Range range): sets the memory range for a given memory region.
+
+"Description of the MemoryMap.h file." ChatGPT, 5 May 2023.
 
 `lib/libarch/MemoryMap.cpp`: The MemoryMap function describes the virtual memory layout of the system.
 In lines 84-95, 
@@ -136,7 +139,9 @@ Memory allocation: FreeNOS uses dynamic memory allocation and deallocation. Memo
 - virtual Size available() const: Get memory available.
 - virtual Result allocate(Range & range): Allocate memory.
 - virtual Result release(const Address addr): Release memory.
-  
+
+"Description of the Allocator.h file." ChatGPT, 5 May 2023. 
+
   In the file of line 207, we can see where dynamic memory allocation occurs. 
 ```c++
   inline void * operator new(__SIZE_TYPE__ sz)
@@ -155,7 +160,8 @@ Memory allocation: FreeNOS uses dynamic memory allocation and deallocation. Memo
 The "operator new" and "operator new[]" functions are used for dynamic memory allocation in C++.
 
 `lib/liballoc/Allocator.cpp`: This C++ code implements an Allocator for dynamic memory allocation, which offers functions for allocating and releasing memory blocks. Derived classes must implement the allocate function, which allocates memory. The release function frees memory, while the aligned function returns an address that's aligned to a specified boundary.
-  
+
+"Description of the Allocator.cpp file." ChatGPT, 5 May 2023.
   
 <br />
 Advantages:
@@ -173,7 +179,7 @@ Disadvantages:
 
 ## Conclusion
 
-One of the key features of FreeNOS is its memory management system, which utilizes a combination of virtual memory, paging, and memory allocation techniques. By using virtual memory, FreeNOS is able to isolate logical memory addresses from physical memory addresses, allowing each process to have its own dedicated memory space. Paging divides physical memory into fixed-size pages, and virtual memory is divided into corresponding pages. Memory allocation is managed through techniques like heap management, where memory is allocated and released dynamically during runtime.
+Utilizing a combination of memory allocation techniques, paging, and virtual memory is the memory management system of FreeNOS. One of its most significant features is how it can isolate physical memory addresses and logical memory addresses. This process grants each process its very own reserved memory space. The division of virtual memory into pages corresponds perfectly to the fixed-size pages of physical memory as created by paging. During runtime, memory is allocated and released dynamically through heap management techniques in order to handle memory allocation efficiently.
 
 ## References
 
