@@ -21,7 +21,7 @@ Virtual Memory: Used to separate logical and physical memory addresses, creating
   - CacheClean: Clean the cache for a virtual memory region.
   - CacheInvalidate: Invalidate the cache for a virtual memory region.
   - CacheCleanInvalidate: Clean and invalidate the cache for a virtual memory region.
-- VMCtl(): A function that performs the specified memory operation on the virtual memory pages. It takes three arguments:
+- VMCtl(): A function that performs the specified memory operation on the virtual memory pages.
   - procID: The process ID of the remote process on which the operation is to be performed.
   - op: The memory operation to be performed.
   - range: A pointer to a Memory::Range object that describes the virtual memory pages to be operated upon.
@@ -154,21 +154,22 @@ Memory allocation: FreeNOS uses dynamic memory allocation and deallocation. Memo
 ```
 The "operator new" and "operator new[]" functions are used for dynamic memory allocation in C++.
 
-`lib/liballoc/Allocator.cpp`: This C++ file implements the Allocator for dynamic memory allocation.
-The Allocator provides an interface for allocating and releasing blocks of memory. The allocate function is a virtual function that must be implemented by derived classes to allocate memory, the release function will release memory, and the aligned function returns an address that is aligned to a specified boundary.
+`lib/liballoc/Allocator.cpp`: This C++ code implements an Allocator for dynamic memory allocation, which offers functions for allocating and releasing memory blocks. Derived classes must implement the allocate function, which allocates memory. The release function frees memory, while the aligned function returns an address that's aligned to a specified boundary.
   
   
+<br />
 Advantages:
 
-- Memory Protection: The memory management system, particularly virtual memory, can provide memory protection, preventing processes from accessing unauthorized memory regions.
-- Memory Isolation: Virtual memory allows processes to have separate memory spaces, ensuring they do not interfere with each other's data or code.
-- Efficient Memory Utilization: Techniques like paging and dynamic memory allocation enable efficient use of physical memory by allocating and releasing memory blocks as needed.
+- Memory Protection: Virtual memory prevents unauthorized access to memory regions.
+- Memory Isolation: Separate memory spaces ensure processes don't interfere.
+- Efficient Memory Utilization: Techniques like paging and dynamic allocation optimize physical memory usage.
+
 <br />
 Disadvantages:
 
-- Overhead: Due to page table lookups and address translation overhead may occur.
-- Fragmentation: Dynamic memory allocation can lead to fragmentation, where memory blocks become scattered and fragmented over time, potentially leading to inefficient memory usage.
-- Complexity: Memory management systems can be complex to implement and debug, requiring careful handling of various scenarios like memory leaks, synchronization, and concurrency.
+- Overhead: Address translation and page table lookups increase processing time.
+- Fragmentation: Dynamic allocation may lead to inefficient memory usage due to scattered blocks.
+- Complexity: Implementing and debugging memory management systems can be intricate, requiring careful handling of issues like concurrency and memory leaks.
 
 ## Conclusion
 
